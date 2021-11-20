@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block current_tab %} Genres List {% endblock current_tab %}
+
+{% block body %}
+        <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Number of movies</th>
+        </tr>
+        {% for genre in genres %}
+            <tr>
+                <td><a href="{% url "genre-detail" genre.pk %}">{{ genre.name }}</a></td>
+                <td>{{ genre.movies.count }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock body %}

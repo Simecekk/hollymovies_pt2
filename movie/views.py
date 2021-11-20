@@ -1,7 +1,7 @@
 from django.template.response import TemplateResponse
 from django.shortcuts import get_object_or_404
 
-from movie.models import Movie, Genre
+from movie.models import Movie, Genre, MovieLikeRegister
 
 
 def homepage_view(request):
@@ -21,9 +21,29 @@ def movie_list_view(request):
     return TemplateResponse(request, 'movies/list.html', context=context)
 
 
-def movie_detail_view(request, pk):
+def genre_list_view(request):
     context = {
-        'movie': get_object_or_404(Movie, pk=pk)
+        'genres': Genre.objects.all(),
+    }
+    return TemplateResponse(request, 'genres/list.html', context=context)
+
+
+def movie_detail_view(request, pk):
+    movie = get_object_or_404(Movie, pk=pk)
+
+    user_liked_movie = MovieLikeRegister.objects.filter(user=request.user, movie=movie).exists()
+    if request.method == 'POST' and request.user.is_authenticated and not user_liked_movie:
+        movie.likes += 1
+        movie.save(update_fields=['likes'])
+        MovieLikeRegister.objects.create(
+            user=request.user,
+            movie=movie,
+        )
+        user_liked_movie = True
+
+    context = {
+        'movie': movie,
+        'already_liked': user_liked_movie
     }
     return TemplateResponse(request, 'movies/detail.html', context=context)
 

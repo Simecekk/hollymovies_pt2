@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 
@@ -35,3 +36,8 @@ class Movie(BaseModel):
 
     def __str__(self):
         return f'{self.name} : {self.id}'
+
+
+class MovieLikeRegister(BaseModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)

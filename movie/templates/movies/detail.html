@@ -7,7 +7,18 @@
     <p>description: {{ movie.description }}</p>
     {% if movie.genre %}
         <p>genre: <a href="{% url "genre-detail" movie.genre.pk %}">{{ movie.genre.name }}</a></p>
-    {% endif %} 
+    {% endif %}
     <p>rating: {{ movie.rating }}</p>
     <p>likes: {{ movie.likes }}</p>
+
+    {% if already_liked %}
+        <p class="text-danger">You have already liked this movie</p>
+    {% endif %}
+
+    {% if request.user.is_authenticated %}
+        <form action="{% url 'movie-detail' movie.pk %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-success" value="like">
+        </form>
+    {% endif %}
 {% endblock body %}
