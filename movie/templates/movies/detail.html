@@ -5,7 +5,9 @@
 {% block body %}
     <p>name: {{ movie.name }}</p>
     <p>description: {{ movie.description }}</p>
-    <p>genre: {{ movie.genre.name }}</p>
+    {% if movie.genre %}
+        <p>genre: <a href="{% url "genre-detail" movie.genre.pk %}">{{ movie.genre.name }}</a></p>
+    {% endif %} 
     <p>rating: {{ movie.rating }}</p>
     <p>likes: {{ movie.likes }}</p>
 {% endblock body %}

@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block current_tab %} Genre Detail - {{ genre.name }} {% endblock current_tab %}
+{% block body %}
+    <p>name: {{ genre.name }}</p>
+    <p>number of movies: {{ genre.movies.count }}</p>
+{% endblock body %}
