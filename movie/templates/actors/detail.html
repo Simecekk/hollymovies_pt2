@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block current_tab %} Actor Detail - {{ actor.full_name }}{% endblock current_tab %}
+
+{% block body %}
+    <p>First name: {{ actor.first_name }}</p>
+    <p>Last name: {{ actor.last_name }}</p>
+    <p>Age: {{ actor.age }}</p>
+
+    <table class="table">
+        <h3 class="mt-5">Movies</h3>
+        <tr>
+            <th>name</th>
+            <th>likes</th>
+        </tr>
+        {% for movie in actor.movies.all %}
+            <tr>
+                <td><a href="{% url 'movie-detail' movie.pk %}">{{ movie.name }}</a></td>
+                <td>{{ movie.likes }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock body %}

@@ -1,4 +1,6 @@
 from django import template
+from django.shortcuts import reverse
+from movie.models import Actor, Director
 
 register = template.Library()
 
@@ -21,6 +23,16 @@ def movie_director_table(context):
         'table_head': 'Directors'
     })
     return context
+
+
+@register.inclusion_tag('generic/person_table.html')
+def all_actor_table():
+    return {'people': Actor.objects.all()}
+
+
+@register.inclusion_tag('generic/person_table.html')
+def all_director_table():
+    return {'people': Director.objects.all()}
 
 
 @register.simple_tag(takes_context=True)

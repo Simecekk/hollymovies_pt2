@@ -30,6 +30,14 @@ def genre_list_view(request):
     return TemplateResponse(request, 'genres/list.html', context=context)
 
 
+def actor_list_view(request):
+    return TemplateResponse(request, 'actors/list.html')
+
+
+def director_list_view(request):
+    return TemplateResponse(request, 'directors/list.html')
+
+
 def movie_detail_view(request, pk):
     movie = get_object_or_404(Movie, pk=pk)
 
@@ -55,6 +63,20 @@ def genre_detail_view(request, pk):
         'genre': get_object_or_404(Genre, pk=pk)
     }
     return TemplateResponse(request, 'genres/detail.html', context=context)
+
+
+def director_detail_view(request, pk):
+    context = {
+        'director': get_object_or_404(Director, pk=pk)
+    }
+    return TemplateResponse(request, 'directors/detail.html', context=context)
+
+
+def actor_detail_view(request, pk):
+    context = {
+        'actor': get_object_or_404(Actor, pk=pk)
+    }
+    return TemplateResponse(request, 'actors/detail.html', context=context)
 
 
 def testing_cheatsheet_view(request):

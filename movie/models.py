@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.urls import reverse
 
 
 class BaseModel(models.Model):
@@ -49,13 +50,23 @@ class Person(BaseModel):
     def __str__(self):
         return f'{self.first_name} {self.last_name} : {self.pk}'
 
+    @property
+    def full_name(self):
+        return f'{self.first_name} {self.last_name}'
+
 
 class Actor(Person):
     movies = models.ManyToManyField(Movie, related_name='actors')
 
+    def get_detail_url(self):
+        return reverse('actor-detail', args=[self.pk])
+
 
 class Director(Person):
     movies = models.ManyToManyField(Movie, related_name='directors')
+
+    def get_detail_url(self):
+        return reverse('director-detail', args=[self.pk])
 
 
 class MovieLikeRegister(BaseModel):

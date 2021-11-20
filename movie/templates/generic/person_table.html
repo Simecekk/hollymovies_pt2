@@ -1,5 +1,7 @@
 <table class="table">
-    <h3 class="mt-5">{{ table_head }}</h3>
+    {% if table_head %}
+        <h3 class="mt-5">{{ table_head }}</h3>
+    {% endif %}
     <tr>
         <th>first name</th>
         <th>last name</th>
@@ -7,7 +9,7 @@
     </tr>
     {% for person in people %}
         <tr>
-            <td><a href="#">{{ person.first_name }}</a></td>
+            <td><a href="{{ person.get_detail_url }}">{{ person.first_name }}</a></td>
             <td>{{ person.last_name }}</td>
             <td>{{ person.age }}</td>
         </tr>

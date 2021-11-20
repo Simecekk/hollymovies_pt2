@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+
+{% block current_tab %} Director List {% endblock current_tab %}
+
+{% block body %}
+    {% all_director_table %}
+{% endblock body %}
