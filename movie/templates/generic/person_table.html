@@ -1,0 +1,15 @@
+<table class="table">
+    <h3 class="mt-5">{{ table_head }}</h3>
+    <tr>
+        <th>first name</th>
+        <th>last name</th>
+        <th>age</th>
+    </tr>
+    {% for person in people %}
+        <tr>
+            <td><a href="#">{{ person.first_name }}</a></td>
+            <td>{{ person.last_name }}</td>
+            <td>{{ person.age }}</td>
+        </tr>
+    {% endfor %}
+</table>

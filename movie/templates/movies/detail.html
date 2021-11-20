@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load custom_tags %}
 
 {% block current_tab %} Movie Detail - {{ movie.name }} {% endblock current_tab %}
 
@@ -11,9 +12,10 @@
     <p>rating: {{ movie.rating }}</p>
     <p>likes: {{ movie.likes }}</p>
 
-    {% if already_liked %}
-        <p class="text-danger">You have already liked this movie</p>
-    {% endif %}
+    {% movie_actor_table %}
+    {% movie_director_table %}
+
+    <p class="text-{% if already_liked %}danger{% else %}primary{% endif %}">{% can_like_message %}</p>
 
     {% if request.user.is_authenticated %}
         <form action="{% url 'movie-detail' movie.pk %}" method="POST">

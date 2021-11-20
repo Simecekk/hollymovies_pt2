@@ -1,13 +1,15 @@
 from django.template.response import TemplateResponse
 from django.shortcuts import get_object_or_404
 
-from movie.models import Movie, Genre, MovieLikeRegister
+from movie.models import Movie, Genre, MovieLikeRegister, Actor, Director
 
 
 def homepage_view(request):
     context = {
         'number_of_movies': Movie.objects.all().count(),
         'number_of_genres': Genre.objects.all().count(),
+        'number_of_actors': Actor.objects.all().count(),
+        'number_of_directors': Director.objects.all().count(),
         'most_liked_movie': Movie.objects.all().order_by('-likes').first(),
         'best_rated_movie': Movie.objects.all().order_by('-rating').first(),
     }
