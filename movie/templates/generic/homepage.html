@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block current_tab %} Homepage {% endblock current_tab %}
+{% block body %}
+    <h1>Statistics:</h1>
+    <p>number of movies - {{ number_of_movies }}</p>
+    <p>number of genres - {{ number_of_genres }}</p>
+    <p>most liked movie - {{ most_liked_movie.name }} <strong> likes: </strong> {{ most_liked_movie.likes }}</p>
+    <p>Best rated movie - {{ best_rated_movie.name }} <strong> rating: </strong> {{ best_rated_movie.rating }}</p>
+{% endblock body %}

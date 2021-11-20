@@ -1,6 +1,5 @@
-from django.shortcuts import render
 from django.template.response import TemplateResponse
-from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 
 from movie.models import Movie, Genre
 
@@ -12,11 +11,18 @@ def homepage_view(request):
         'most_liked_movie': Movie.objects.all().order_by('-likes').first(),
         'best_rated_movie': Movie.objects.all().order_by('-rating').first(),
     }
-    return TemplateResponse(request, 'homepage.html', context=context)
+    return TemplateResponse(request, 'generic/homepage.html', context=context)
 
 
 def movie_list_view(request):
     context = {
         'movies': Movie.objects.all().order_by('-likes', '-rating'),
     }
-    return TemplateResponse(request, 'movie_list.html', context=context)
+    return TemplateResponse(request, 'movies/list.html', context=context)
+
+
+def movie_detail_view(request, pk):
+    context = {
+        'movie': get_object_or_404(Movie, pk=pk)
+    }
+    return TemplateResponse(request, 'movies/detail.html', context=context)

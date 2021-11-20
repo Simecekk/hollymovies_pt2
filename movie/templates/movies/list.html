@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block current_tab %} Movie List {% endblock current_tab %}
+{% block body %}
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>likes</th>
+            <th>rating</th>
+        </tr>
+        {% for movie in movies %}
+            <tr>
+                <td><a href="{% url "movie-detail" movie.pk %}">{{ movie.name }}</a></td>
+                <td>{{ movie.likes }}</td>
+                <td>{{ movie.rating }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock body %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block current_tab %} Movie Detail - {{ movie.name }} {% endblock current_tab %}
+
+{% block body %}
+    <p>name: {{ movie.name }}</p>
+    <p>description: {{ movie.description }}</p>
+    <p>genre: {{ movie.genre.name }}</p>
+    <p>rating: {{ movie.rating }}</p>
+    <p>likes: {{ movie.likes }}</p>
+{% endblock body %}
