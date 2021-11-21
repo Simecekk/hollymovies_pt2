@@ -29,6 +29,7 @@ class Movie(BaseModel):
     name = models.CharField(max_length=512)
     description = models.TextField(blank=True, default='')
     likes = models.IntegerField(default=0)
+    dislikes = models.IntegerField(default=0)
     rating = models.FloatField(validators=[
         MaxValueValidator(5),
         MinValueValidator(0),

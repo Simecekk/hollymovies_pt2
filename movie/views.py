@@ -1,5 +1,5 @@
 from django.template.response import TemplateResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 
 from movie.models import Movie, Genre, MovieLikeRegister, Actor, Director
 
@@ -77,6 +77,13 @@ def actor_detail_view(request, pk):
         'actor': get_object_or_404(Actor, pk=pk)
     }
     return TemplateResponse(request, 'actors/detail.html', context=context)
+
+
+def dislike_movie_view(request, pk):
+    movie = get_object_or_404(Movie, pk=pk)
+    movie.dislikes += 1
+    movie.save(update_fields=['dislikes'])
+    return redirect('movie-detail', pk=pk)
 
 
 def testing_cheatsheet_view(request):

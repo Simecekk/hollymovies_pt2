@@ -11,6 +11,7 @@
     {% endif %}
     <p>rating: {{ movie.rating }}</p>
     <p>likes: {{ movie.likes }}</p>
+    <p>dislikes: {{ movie.dislikes }}</p>
 
     {% movie_actor_table %}
     {% movie_director_table %}
@@ -18,9 +19,16 @@
     <p class="text-{% if already_liked %}danger{% else %}primary{% endif %}">{% can_like_message %}</p>
 
     {% if request.user.is_authenticated %}
-        <form action="{% url 'movie-detail' movie.pk %}" method="POST">
-            {% csrf_token %}
-            <input type="submit" class="btn btn-success" value="like">
-        </form>
+        <div class="row">
+            <div class="col-1">
+                <form action="{% url 'movie-detail' movie.pk %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-success" value="like">
+                </form>
+            </div>
+            <div class="col-1">
+                <a href="{% url 'dislike-movie' movie.pk %}" class="btn btn-danger">dislike</a>
+            </div>
+        </div>
     {% endif %}
 {% endblock body %}
