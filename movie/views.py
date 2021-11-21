@@ -114,45 +114,86 @@ class MovieDetailView(DetailView):
         return self.get(request, *args, **kwargs)
 
 
-def genre_detail_view(request, pk):
-    context = {
-        'genre': get_object_or_404(Genre, pk=pk)
-    }
-    return TemplateResponse(request, 'genres/detail.html', context=context)
+# def genre_detail_view(request, pk):
+#     context = {
+#         'genre': get_object_or_404(Genre, pk=pk)
+#     }
+#     return TemplateResponse(request, 'genres/detail.html', context=context)
 
 
-def director_detail_view(request, pk):
-    context = {
-        'director': get_object_or_404(Director, pk=pk)
-    }
-    return TemplateResponse(request, 'directors/detail.html', context=context)
+class GenreDetailView(DetailView):
+    model = Genre
+    template_name = 'genres/detail.html'
 
 
-def actor_detail_view(request, pk):
-    context = {
-        'actor': get_object_or_404(Actor, pk=pk)
-    }
-    return TemplateResponse(request, 'actors/detail.html', context=context)
+# def director_detail_view(request, pk):
+#     context = {
+#         'director': get_object_or_404(Director, pk=pk)
+#     }
+#     return TemplateResponse(request, 'directors/detail.html', context=context)
 
 
-def dislike_movie_view(request, pk):
-    movie = get_object_or_404(Movie, pk=pk)
-    movie.dislikes += 1
-    movie.save(update_fields=['dislikes'])
-    return redirect('movie-detail', pk=pk)
+class DirectorDetailView(DetailView):
+    model = Director
+    template_name = 'directors/detail.html'
 
 
-def testing_cheatsheet_view(request):
+# def actor_detail_view(request, pk):
+#     context = {
+#         'actor': get_object_or_404(Actor, pk=pk)
+#     }
+#     return TemplateResponse(request, 'actors/detail.html', context=context)
+
+
+class ActorDetailView(DetailView):
+    model = Actor
+    template_name = 'actors/detail.html'
+
+
+# def dislike_movie_view(request, pk):
+#     movie = get_object_or_404(Movie, pk=pk)
+#     movie.dislikes += 1
+#     movie.save(update_fields=['dislikes'])
+#     return redirect('movie-detail', pk=pk)
+
+
+class DislikeMovieView(View):
+    def get(self, request, *args, **kwargs):
+        pk = kwargs['pk']
+        movie = get_object_or_404(Movie, pk=pk)
+        movie.dislikes += 1
+        movie.save(update_fields=['dislikes'])
+        return redirect('movie-detail', pk=pk)
+
+
+# def testing_cheatsheet_view(request):
+#     # python list[0]
+#     # template language jinja2 list.0
+#
+#     # python dict['key']
+#     # template language jinja2 dict.key
+#     context = {
+#         'list': ['index0', 'index1'],
+#         'dict': {
+#             'key': 'value',
+#             'key2': 'value2'
+#         }
+#     }
+#     return TemplateResponse(request, 'generic/data_types_testing.html', context=context)
+
+
+class TestingCheatSheetView(TemplateView):
+    template_name = 'generic/data_types_testing.html'
+
     # python list[0]
     # template language jinja2 list.0
 
     # python dict['key']
     # template language jinja2 dict.key
-    context = {
+    extra_context = {
         'list': ['index0', 'index1'],
         'dict': {
             'key': 'value',
             'key2': 'value2'
         }
     }
-    return TemplateResponse(request, 'generic/data_types_testing.html', context=context)

@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block current_tab %} Director Detail - {{ director.full_name }}{% endblock current_tab %}
+{% block current_tab %} Director Detail - {{ object.full_name }}{% endblock current_tab %}
 
 {% block body %}
-    <p>First name: {{ director.first_name }}</p>
-    <p>Last name: {{ director.last_name }}</p>
-    <p>Age: {{ director.age }}</p>
+    <p>First name: {{ object.first_name }}</p>
+    <p>Last name: {{ object.last_name }}</p>
+    <p>Age: {{ object.age }}</p>
 
     <table class="table">
         <h3 class="mt-5">Movies</h3>
@@ -13,7 +13,7 @@
             <th>name</th>
             <th>likes</th>
         </tr>
-        {% for movie in director.movies.all %}
+        {% for movie in object.movies.all %}
             <tr>
                 <td><a href="{% url 'movie-detail' movie.pk %}">{{ movie.name }}</a></td>
                 <td>{{ movie.likes }}</td>
