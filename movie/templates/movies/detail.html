@@ -1,33 +1,33 @@
 {% extends 'base.html' %}
 {% load custom_tags %}
 
-{% block current_tab %} Movie Detail - {{ movie.name }} {% endblock current_tab %}
+{% block current_tab %} Movie Detail - {{ object.name }} {% endblock current_tab %}
 
 {% block body %}
-    <p>name: {{ movie.name }}</p>
-    <p>description: {{ movie.description }}</p>
-    {% if movie.genre %}
-        <p>genre: <a href="{% url "genre-detail" movie.genre.pk %}">{{ movie.genre.name }}</a></p>
+    <p>name: {{ object.name }}</p>
+    <p>description: {{ object.description }}</p>
+    {% if object.genre %}
+        <p>genre: <a href="{% url "genre-detail" object.genre.pk %}">{{ object.genre.name }}</a></p>
     {% endif %}
-    <p>rating: {{ movie.rating }}</p>
-    <p>likes: {{ movie.likes }}</p>
-    <p>dislikes: {{ movie.dislikes }}</p>
+    <p>rating: {{ object.rating }}</p>
+    <p>likes: {{ object.likes }}</p>
+    <p>dislikes: {{ object.dislikes }}</p>
 
     {% movie_actor_table %}
     {% movie_director_table %}
 
-    <p class="text-{% if already_liked %}danger{% else %}primary{% endif %}">{% can_like_message %}</p>
-
     {% if request.user.is_authenticated %}
+        <p class="text-{% if already_liked %}danger{% else %}primary{% endif %}">{% can_like_message %}</p>
+
         <div class="row">
             <div class="col-1">
-                <form action="{% url 'movie-detail' movie.pk %}" method="POST">
+                <form action="{% url 'movie-detail' object.pk %}" method="POST">
                     {% csrf_token %}
                     <input type="submit" class="btn btn-success" value="like">
                 </form>
             </div>
             <div class="col-1">
-                <a href="{% url 'dislike-movie' movie.pk %}" class="btn btn-danger">dislike</a>
+                <a href="{% url 'dislike-movie' object.pk %}" class="btn btn-danger">dislike</a>
             </div>
         </div>
     {% endif %}
