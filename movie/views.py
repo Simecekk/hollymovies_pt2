@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from django.views.generic import ListView, TemplateView, DetailView
 
+from movie.forms import DummyForm
 from movie.models import Movie, Genre, MovieLikeRegister, Actor, Director, Cinema, CinemaMovieScreening
 
 
@@ -236,4 +237,26 @@ class ScreeningDetailView(DetailView):
         self.object = self.get_object()
         self.object.sold_tickets += 1
         self.object.save(update_fields=['sold_tickets', ])
+        return self.get(request, *args, **kwargs)
+
+
+class DummyFormView(View):
+
+    def get(self, request, *args, **kwargs):
+        context = {
+            'form': DummyForm()
+        }
+        return TemplateResponse(request, 'dummy_forms.html', context=context)
+
+    def post(self, request, *args, **kwargs):
+        bounded_form = DummyForm(data=request.POST)
+
+        if not bounded_form.is_valid():
+            context = {'form': bounded_form}
+            return TemplateResponse(request, 'dummy_forms.html', context=context)
+
+        int_field = bounded_form.cleaned_data['int_field']
+        username = bounded_form.cleaned_data['username']
+        print(int_field)
+        print(username)
         return self.get(request, *args, **kwargs)
