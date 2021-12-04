@@ -2,9 +2,9 @@ from django.template.response import TemplateResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views import View
-from django.views.generic import ListView, TemplateView, DetailView, FormView
+from django.views.generic import ListView, TemplateView, DetailView, FormView, CreateView
 
-from movie.forms import DummyForm
+from movie.forms import DummyForm, MovieForm
 from movie.models import Movie, Genre, MovieLikeRegister, Actor, Director, Cinema, CinemaMovieScreening
 
 
@@ -303,3 +303,10 @@ class DummyFormView(FormView):
 #
 #         return self.get(request, *args, **kwargs)
 
+
+class CreateMovieView(CreateView):
+    template_name = 'movies/create.html'
+    form_class = MovieForm
+
+    def get_success_url(self):
+        return reverse('movie-detail', args=[self.object.id])

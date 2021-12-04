@@ -1,6 +1,6 @@
 from django import forms
 
-from movie.models import Movie, Genre
+from movie.models import Movie, Genre, Actor
 from django.core.exceptions import ValidationError
 
 
@@ -43,11 +43,20 @@ class DummyForm(forms.Form):
 # class MovieForm(forms.Form):
 #     name = forms.CharField(max_length=512)
 #     description = forms.CharField(widget=forms.Textarea)
-#     likes = forms.IntegerField(default=0)
-#     dislikes = forms.IntegerField(default=0)
-#     rating = forms.FloatField(max_value=5, min_value=0, default=0)
+#     likes = forms.IntegerField(initial=0)
+#     dislikes = forms.IntegerField(initial=0)
+#     rating = forms.FloatField(max_value=5, min_value=0, initial=0)
 #     genre = forms.ModelChoiceField(required=False, queryset=Genre.objects.all())
 
 
 class MovieForm(forms.ModelForm):
-    pass
+    class Meta:
+        model = Movie
+        fields = ['name', 'description', 'rating', 'genre']
+        # fields = ['__all__']
+
+
+class ActorForm(forms.ModelForm):
+    class Meta:
+        model = Actor
+        fields = ['first_name']
