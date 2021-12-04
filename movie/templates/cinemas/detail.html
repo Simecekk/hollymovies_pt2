@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block current_tab %} Cinema Detail - {{ object.name }}{% endblock current_tab %}
+
+{% block body %}
+    <p>First name: {{ object.name }}</p>
+    <p>Last name: {{ object.location }}</p>
+
+    <table class="table">
+        <h2>Available screenings</h2>
+        <tr>
+            <th>Movie</th>
+            <th>Start at</th>
+            <th>Duration (minutes)</th>
+            <th>Available tickets</th>
+            <th>detail</th>
+            {% if request.user.is_authenticated %}
+                <th>buy</th>
+            {% endif %}
+        </tr>
+        {% for screening in screenings %}
+            <tr>
+                <td><a href="{% url "movie-detail" screening.movie.pk %}">{{ screening.movie.name }}</a></td>
+                <td>{{ screening.screening_start_at }}</td>
+                <td>{{ screening.minutes_duration }}</td>
+                <td>{{ screening.available_tickets }}</td>
+                <td><a href="{% url 'screening-detail' screening.pk %}">detail</a></td>
+                {% if request.user.is_authenticated %}
+                    <td>
+                        <form action="{% url 'screening-detail' screening.pk %}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-success" value="buy">
+                        </form>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock body %}

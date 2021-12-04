@@ -1,7 +1,10 @@
+from datetime import timedelta
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.urls import reverse
+from django.utils import timezone
 
 
 class BaseModel(models.Model):
@@ -44,6 +47,7 @@ class Person(BaseModel):
     first_name = models.CharField(max_length=256)
     last_name = models.CharField(max_length=256)
     age = models.IntegerField()
+    born_at = models.DateTimeField()
 
     class Meta:
         abstract = True
@@ -73,3 +77,38 @@ class Director(Person):
 class MovieLikeRegister(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+
+
+class Cinema(BaseModel):
+    name = models.CharField(max_length=512)
+    location = models.CharField(max_length=512)
+
+    class Meta:
+        unique_together = ('name', 'location')
+
+    def __str__(self):
+        return f'{self.name} : {self.location}'
+
+
+class CinemaMovieScreening(BaseModel):
+    screening_start_at = models.DateTimeField()
+    minutes_duration = models.IntegerField()
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='screenings')
+    cinema = models.ForeignKey(Cinema, on_delete=models.CASCADE, related_name='screenings')
+    number_of_tickets = models.IntegerField()
+    ticket_price = models.FloatField()
+    sold_tickets = models.IntegerField(default=0)
+
+    @property
+    def available_tickets(self):
+        return self.number_of_tickets - self.sold_tickets
+
+    @property
+    def soldout(self):
+        return self.available_tickets <= 0
+
+    @property
+    def is_closed(self):
+        now = timezone.now()
+        is_active = now > (self.screening_start_at + timedelta(minutes=self.minutes_duration))
+        return is_active

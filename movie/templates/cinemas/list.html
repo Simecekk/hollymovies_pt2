@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block current_tab %} Cinema List {% endblock current_tab %}
+{% block body %}
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>location</th>
+        </tr>
+        {% for cinema in object_list %}
+            <tr>
+                <td><a href="{% url "cinema-detail" cinema.pk %}">{{ cinema.name }}</a></td>
+                <td>{{ cinema.location }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock body %}
