@@ -2,7 +2,8 @@ from django.urls import path
 
 from movie.views import homepage_view, MovieListView, MovieDetailView, GenreDetailView, TestingCheatSheetView, \
     GenreListView, ActorListView, director_list_view, ActorDetailView, DirectorDetailView, DislikeMovieView, \
-    CinemaListView, CinemaDetailView, ScreeningDetailView, DummyFormView, CreateMovieView
+    CinemaListView, CinemaDetailView, ScreeningDetailView, DummyFormView, CreateMovieView, CreateActorView, \
+    UpdateMovieView
 
 urlpatterns = [
     path('homepage/', homepage_view, name='homepage'),
@@ -21,4 +22,6 @@ urlpatterns = [
     path('screening/<int:pk>/', ScreeningDetailView.as_view(), name='screening-detail'),
     path('dummy_forms/', DummyFormView.as_view(), name='dummy_form'),
     path('create/movie/', CreateMovieView.as_view(), name='create_movie'),
+    path('create/actor/', CreateActorView.as_view(), name='create_actor'),
+    path('update/movie/<int:pk>/', UpdateMovieView.as_view(), name='update_movie'),
 ]

@@ -29,6 +29,9 @@
             <div class="col-1">
                 <a href="{% url 'dislike-movie' object.pk %}" class="btn btn-danger">dislike</a>
             </div>
+            <div class="col-1">
+                <a href="{% url 'update_movie' object.pk %}" class="btn btn-primary">Update</a>
+            </div>
         </div>
     {% endif %}
 {% endblock body %}

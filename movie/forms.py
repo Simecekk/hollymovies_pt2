@@ -21,6 +21,11 @@ def validate_username_is_not_david(value):
         raise ValidationError('Username cannot be David')
 
 
+def validate_capitalized(value):
+    if value[0].islower():
+        raise ValidationError('First letter must be uppercase')
+
+
 class UsernameNotDavidField(forms.CharField):
     def validate(self, value):
         if value == 'David':
@@ -50,13 +55,15 @@ class DummyForm(forms.Form):
 
 
 class MovieForm(forms.ModelForm):
+    name = forms.CharField(max_length=512, validators=[validate_capitalized])
+
     class Meta:
         model = Movie
         fields = ['name', 'description', 'rating', 'genre']
-        # fields = ['__all__']
+        # fields = '__all__'
 
 
 class ActorForm(forms.ModelForm):
     class Meta:
         model = Actor
-        fields = ['first_name']
+        fields = '__all__'
