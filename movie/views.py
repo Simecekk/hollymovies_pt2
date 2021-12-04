@@ -255,7 +255,6 @@ class DummyFormView(View):
             context = {'form': bounded_form}
             return TemplateResponse(request, 'dummy_forms.html', context=context)
 
-
         # NOTE Když pracujeme s daty ve formě, vždy použíjme cleaned_date
         int_field = bounded_form.cleaned_data['int_field']
         username = bounded_form.cleaned_data['username']

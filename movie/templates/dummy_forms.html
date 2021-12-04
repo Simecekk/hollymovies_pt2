@@ -10,6 +10,7 @@
 
 <div class="container">
     <form action="{% url 'dummy_form' %}" method="POST" class="mt-5">
+        <h1>FORM explicit</h1>
         {% csrf_token %}
         {{ form.int_field.label }}: {{ form.int_field }} {{ form.int_field.errors }}
         <br><br>
@@ -25,6 +26,28 @@
         <br><br>
         {{ form.difficulty.label }}: {{ form.difficulty }} {{ form.difficulty.errors }}
         <br><br>
+        <input type="submit" value="start" class="mt-5">
+    </form>
+
+
+    <form action="{% url 'dummy_form' %}" method="POST" class="mt-5">
+        <h1>FORM as_p</h1>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="start" class="mt-5">
+    </form>
+
+    <form action="{% url 'dummy_form' %}" method="POST" class="mt-5">
+        <h1>FORM as_ul</h1>
+        {% csrf_token %}
+        {{ form.as_ul }}
+        <input type="submit" value="start" class="mt-5">
+    </form>
+
+    <form action="{% url 'dummy_form' %}" method="POST" class="mt-5">
+        <h1>FORM default</h1>
+        {% csrf_token %}
+        {{ form }}
         <input type="submit" value="start" class="mt-5">
     </form>
 </div>
