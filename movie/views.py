@@ -255,8 +255,22 @@ class DummyFormView(View):
             context = {'form': bounded_form}
             return TemplateResponse(request, 'dummy_forms.html', context=context)
 
+
+        # NOTE Když pracujeme s daty ve formě, vždy použíjme cleaned_date
         int_field = bounded_form.cleaned_data['int_field']
         username = bounded_form.cleaned_data['username']
+        email = bounded_form.cleaned_data['email']
+        datetime_test = bounded_form.cleaned_data['datetime_test']
+        movie = bounded_form.cleaned_data['movie']
+        movies = bounded_form.cleaned_data['movies']
+        difficulty = bounded_form.cleaned_data['difficulty']
+
         print(int_field)
         print(username)
+        print(email)
+        print(datetime_test)
+        print(difficulty)
+        print(movie)
+        print(movies)
+
         return self.get(request, *args, **kwargs)
