@@ -10,6 +10,23 @@
 </head>
 <body>
 <h1>Hollymovies - {% block current_tab %}{% endblock current_tab %}</h1><br>
+
+<div class="container">
+    {% if messages %}
+        {% for message in messages %}
+            <div {% if message.tags == "success" %}
+                class="alert text-white bg-success alert-dismissible mt-3"
+            {% elif message.tags == "error" %}
+                class="alert text-white bg-danger alert-dismissible mt-3"
+            {% endif %}
+            >
+                <button class="close" type="button" data-dissmis="alert"><span>&times;</span></button>
+                <strong>{{ message }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
 <h1>Application pages</h1>
 <h2><a href="{% url 'homepage' %}">homepage</a></h2>
 <h2><a href="{% url 'movie-list' %}">movies</a></h2>
@@ -29,12 +46,13 @@
 {% if request.user.is_authenticated %}
     <h2>Username: {{ request.user.username }}</h2>
 {% else %}
-   <h2>login</h2>
-{% endif %} 
+    <h2>login</h2>
+{% endif %}
 
 <div class="container mt-5">
     {% block body %}
     {% endblock body %}
 </div>
+
 </body>
 </html>

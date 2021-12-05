@@ -1,8 +1,11 @@
+from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views import View
-from django.views.generic import ListView, TemplateView, DetailView, FormView, CreateView, UpdateView
+from django.views.generic import ListView, TemplateView, DetailView, FormView, CreateView, UpdateView, DeleteView
+from django.contrib import messages
 
 from movie.forms import DummyForm, MovieForm, ActorForm
 from movie.models import Movie, Genre, MovieLikeRegister, Actor, Director, Cinema, CinemaMovieScreening
@@ -242,9 +245,12 @@ class ScreeningDetailView(DetailView):
 
 
 class DummyFormView(FormView):
-    form_class = DummyForm
     template_name = 'dummy_forms.html'
     success_url = reverse_lazy('dummy_form')
+    initial = {'username': 'Honza'}
+
+    def get_form(self, form_class=None):
+        return DummyForm(10, **self.get_form_kwargs())
 
     def form_valid(self, form):
         int_field = form.cleaned_data['int_field']
@@ -304,26 +310,71 @@ class DummyFormView(FormView):
 #         return self.get(request, *args, **kwargs)
 
 
-class CreateMovieView(CreateView):
+class CreateMovieView(SuccessMessageMixin, CreateView):
     template_name = 'movies/create.html'
     form_class = MovieForm
+    success_message = 'Successfully created movie %(name)s'
 
     def get_success_url(self):
         return reverse('movie-detail', args=[self.object.id])
 
 
-class UpdateMovieView(UpdateView):
+class UpdateMovieView(SuccessMessageMixin, UpdateView):
     template_name = 'movies/update.html'
     form_class = MovieForm
     model = Movie
+    success_message = 'Successfully updated movie %(name)s'
 
     def get_success_url(self):
         return reverse('movie-detail', args=[self.object.id])
 
 
-class CreateActorView(CreateView):
+class CreateActorView(SuccessMessageMixin, CreateView):
     template_name = 'actors/create.html'
     form_class = ActorForm
+    success_message = 'Successfully created actor %(first_name)s %(last_name)s'
 
     def get_success_url(self):
         return reverse('actor-detail', args=[self.object.id])
+
+
+class ActorUpdateView(SuccessMessageMixin, UpdateView):
+    template_name = 'actors/update.html'
+    form_class = ActorForm
+    model = Actor
+    success_message = 'Successfully updated actor %(first_name)s %(last_name)s'
+
+    def get_success_url(self):
+        return reverse('actor-detail', args=[self.object.id])
+
+
+class DeleteSuccessMixin:
+    success_message = ''
+
+    def get_success_message(self):
+        return self.success_message
+
+    def delete(self, request, *args, **kwargs):
+        super(DeleteSuccessMixin, self).delete(request, *args, **kwargs)
+        messages.success(request, self.get_success_message())
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class ActorDeleteView(DeleteSuccessMixin, DeleteView):
+    model = Actor
+
+    def get_success_message(self):
+        return f'Successfully deleted actor name: {self.object.full_name}'
+
+    def get_success_url(self):
+        return reverse('actor-list')
+
+
+class MovieDeleteView(DeleteSuccessMixin, DeleteView):
+    model = Movie
+
+    def get_success_message(self):
+        return f'Successfully deleted movie name: {self.object.name}'
+
+    def get_success_url(self):
+        return reverse('movie-list')

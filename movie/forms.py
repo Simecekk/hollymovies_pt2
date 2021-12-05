@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import EmailInput
 
 from movie.models import Movie, Genre, Actor
 from django.core.exceptions import ValidationError
@@ -32,10 +33,16 @@ class UsernameNotDavidField(forms.CharField):
             raise ValidationError('Username cannot be David')
 
 
+class BootstrapEmailInput(EmailInput):
+    def __init__(self, attrs={}):
+        attrs.update({'class': 'form-control'})
+        super(BootstrapEmailInput, self).__init__(attrs=attrs)
+
+
 class DummyForm(forms.Form):
     int_field = forms.IntegerField(min_value=5, max_value=10, required=False)
     username = forms.CharField(required=False, empty_value='unknown', label='Dummy Username', validators=[validate_username_is_not_david])
-    email = forms.EmailField(required=False)
+    email = forms.EmailField(required=False, widget=BootstrapEmailInput())
     datetime_test = forms.DateTimeField(widget=CustomDatetimeInput())
     movie = forms.ModelChoiceField(queryset=Movie.objects.all())
     movies = forms.ModelMultipleChoiceField(queryset=Movie.objects.all())
@@ -44,6 +51,11 @@ class DummyForm(forms.Form):
     def clean_username(self):
         return self.cleaned_data['username'].capitalize()
 
+    def __init__(self, min_likes, *args, **kwargs):
+        super(DummyForm, self).__init__(*args, **kwargs)
+        queryset = Movie.objects.filter(likes__gte=min_likes)
+        self.fields['movie'].queryset = queryset
+        self.fields['movies'].queryset = queryset
 
 # class MovieForm(forms.Form):
 #     name = forms.CharField(max_length=512)
@@ -64,6 +76,8 @@ class MovieForm(forms.ModelForm):
 
 
 class ActorForm(forms.ModelForm):
+    born_at = forms.DateTimeField(widget=CustomDatetimeInput)
+
     class Meta:
         model = Actor
         fields = '__all__'

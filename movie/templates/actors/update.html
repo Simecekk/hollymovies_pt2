@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <form action="{% url 'update_movie' object.pk %}" method="post">
+    <form action="{% url 'update-actor' object.pk %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Save" class="btn btn-success">
     </form>
     <br>
-    <form action="{% url 'delete_movie' object.pk %}" method="post">
+    <form action="{% url 'delete-actor' object.pk %}" method="post">
         {% csrf_token %}
         <input type="submit" value="delete" class="btn btn-danger">
     </form>

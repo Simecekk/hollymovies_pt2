@@ -20,4 +20,8 @@
             </tr>
         {% endfor %}
     </table>
+
+    <div class="col-1">
+        <a href="{% url 'update-actor' object.pk %}" class="btn btn-primary">Update</a>
+    </div>
 {% endblock body %}
