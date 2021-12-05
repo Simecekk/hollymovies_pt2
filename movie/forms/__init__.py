@@ -3,7 +3,7 @@ from django import forms
 from movie import choices
 from movie.forms.validators import validate_capitalized, validate_username_is_not_david
 from movie.forms.widgets import CustomDatetimeInput, BootstrapEmailInput
-from movie.models import Movie, Actor
+from movie.models import Movie, Actor, Genre
 
 
 class DummyForm(forms.Form):
@@ -50,4 +50,10 @@ class ActorForm(forms.ModelForm):
 
     class Meta:
         model = Actor
+        fields = '__all__'
+
+
+class GenreForm(forms.ModelForm):
+    class Meta:
+        model = Genre
         fields = '__all__'

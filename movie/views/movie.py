@@ -6,7 +6,7 @@ from django.views import View
 from django.views.generic import ListView, TemplateView, DetailView, UpdateView, CreateView, DeleteView
 
 from movie.views.mixins import DeleteSuccessMixin
-from movie.forms import MovieForm, ActorForm
+from movie.forms import MovieForm, ActorForm, GenreForm
 from movie.models import Movie, Genre, MovieLikeRegister, Director, Actor
 
 
@@ -27,6 +27,35 @@ class GenreListView(View):
             'genres': Genre.objects.all()
         }
         return TemplateResponse(request, 'genres/list.html', context=context)
+
+
+class GenreCreateView(SuccessMessageMixin, CreateView):
+    template_name = 'genres/create.html'
+    form_class = GenreForm
+    success_message = 'Successfully created genre %(name)s'
+
+    def get_success_url(self):
+        return reverse('genre:detail', args=[self.object.id])
+
+
+class GenreUpdateView(SuccessMessageMixin, UpdateView):
+    template_name = 'genres/update.html'
+    form_class = GenreForm
+    model = Genre
+    success_message = 'Successfully updated genre %(name)s'
+
+    def get_success_url(self):
+        return reverse('genre:detail', args=[self.object.id])
+
+
+class GenreDeleteView(DeleteSuccessMixin, DeleteView):
+    model = Genre
+
+    def get_success_message(self):
+        return f'Successfully deleted genre name: {self.object.name}'
+
+    def get_success_url(self):
+        return reverse('genre:list')
 
 
 class MovieListView(ListView):

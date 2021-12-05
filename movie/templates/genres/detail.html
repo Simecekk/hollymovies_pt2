@@ -3,5 +3,6 @@
 {% block current_tab %} Genre Detail - {{ object.name }} {% endblock current_tab %}
 {% block body %}
     <p>name: {{ object.name }}</p>
-    <p>number of movies: {{ object.movies.count }}</p>
+    <p>number of movies: {{ object.movies.count }}</p><br>
+    <a href="{% url 'genre:update' object.pk %}" class="btn btn-primary">Update</a>
 {% endblock body %}

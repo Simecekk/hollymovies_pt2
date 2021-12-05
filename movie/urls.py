@@ -4,7 +4,7 @@ from movie.views.cinema import CinemaListView, CinemaDetailView, ScreeningDetail
 from movie.views.generic import homepage_view, TestingCheatSheetView, DummyFormView
 from movie.views.movie import MovieListView, MovieDetailView, MovieDeleteView, GenreDetailView, MovieCreateView, \
     MovieUpdateView, MovieDislikeView, GenreListView, ActorListView, ActorDetailView, ActorUpdateView, ActorCreateView, \
-    ActorDeleteView, director_list_view, DirectorDetailView
+    ActorDeleteView, director_list_view, DirectorDetailView, GenreUpdateView, GenreCreateView, GenreDeleteView
 
 movie_urlpatterns = ([
     path('list/', MovieListView.as_view(), name='list'),
@@ -18,6 +18,9 @@ movie_urlpatterns = ([
 genre_urlpatterns = ([
     path('detail/<int:pk>/', GenreDetailView.as_view(), name='detail'),
     path('list/', GenreListView.as_view(), name='list'),
+    path('update/<int:pk>/', GenreUpdateView.as_view(), name='update'),
+    path('create/', GenreCreateView.as_view(), name='create'),
+    path('delete/<int:pk>/', GenreDeleteView.as_view(), name='delete')
 ], 'genre')
 
 actor_urlpatterns = ([

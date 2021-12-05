@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <form action="{% url 'genre:update' object.pk %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Save">
+    </form>
+    <br>
+    <form action="{% url 'genre:delete' object.pk %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="delete" class="btn btn-danger">
+    </form>
+{% endblock body %}
