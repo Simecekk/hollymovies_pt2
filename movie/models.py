@@ -64,14 +64,14 @@ class Actor(Person):
     movies = models.ManyToManyField(Movie, related_name='actors')
 
     def get_detail_url(self):
-        return reverse('actor-detail', args=[self.pk])
+        return reverse('actor:detail', args=[self.pk])
 
 
 class Director(Person):
     movies = models.ManyToManyField(Movie, related_name='directors')
 
     def get_detail_url(self):
-        return reverse('director-detail', args=[self.pk])
+        return reverse('director:detail', args=[self.pk])
 
 
 class MovieLikeRegister(BaseModel):

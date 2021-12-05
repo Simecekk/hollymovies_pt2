@@ -10,7 +10,7 @@
         </tr>
         {% for genre in genres %}
             <tr>
-                <td><a href="{% url "genre-detail" genre.pk %}">{{ genre.name }}</a></td>
+                <td><a href="{% url "genre:detail" genre.pk %}">{{ genre.name }}</a></td>
                 <td>{{ genre.movies.count }}</td>
             </tr>
         {% endfor %}

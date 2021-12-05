@@ -15,13 +15,13 @@
         </tr>
         {% for movie in object.movies.all %}
             <tr>
-                <td><a href="{% url 'movie-detail' movie.pk %}">{{ movie.name }}</a></td>
+                <td><a href="{% url 'movie:detail' movie.pk %}">{{ movie.name }}</a></td>
                 <td>{{ movie.likes }}</td>
             </tr>
         {% endfor %}
     </table>
 
     <div class="col-1">
-        <a href="{% url 'update-actor' object.pk %}" class="btn btn-primary">Update</a>
+        <a href="{% url 'actor:update' object.pk %}" class="btn btn-primary">Update</a>
     </div>
 {% endblock body %}

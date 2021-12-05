@@ -7,7 +7,7 @@
     <p>name: {{ object.name }}</p>
     <p>description: {{ object.description }}</p>
     {% if object.genre %}
-        <p>genre: <a href="{% url "genre-detail" object.genre.pk %}">{{ object.genre.name }}</a></p>
+        <p>genre: <a href="{% url "genre:detail" object.genre.pk %}">{{ object.genre.name }}</a></p>
     {% endif %}
     <p>rating: {{ object.rating }}</p>
     <p>likes: {{ object.likes }}</p>
@@ -21,16 +21,16 @@
 
         <div class="row">
             <div class="col-1">
-                <form action="{% url 'movie-detail' object.pk %}" method="POST">
+                <form action="{% url 'movie:detail' object.pk %}" method="POST">
                     {% csrf_token %}
                     <input type="submit" class="btn btn-success" value="like">
                 </form>
             </div>
             <div class="col-1">
-                <a href="{% url 'dislike-movie' object.pk %}" class="btn btn-danger">dislike</a>
+                <a href="{% url 'movie:dislike' object.pk %}" class="btn btn-danger">dislike</a>
             </div>
             <div class="col-1">
-                <a href="{% url 'update_movie' object.pk %}" class="btn btn-primary">Update</a>
+                <a href="{% url 'movie:update' object.pk %}" class="btn btn-primary">Update</a>
             </div>
         </div>
     {% endif %}

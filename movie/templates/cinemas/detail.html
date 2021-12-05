@@ -20,7 +20,7 @@
         </tr>
         {% for screening in screenings %}
             <tr>
-                <td><a href="{% url "movie-detail" screening.movie.pk %}">{{ screening.movie.name }}</a></td>
+                <td><a href="{% url "movie:detail" screening.movie.pk %}">{{ screening.movie.name }}</a></td>
                 <td>{{ screening.screening_start_at }}</td>
                 <td>{{ screening.minutes_duration }}</td>
                 <td>{{ screening.available_tickets }}</td>
