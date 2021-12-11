@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -113,3 +114,8 @@ class CinemaMovieScreening(BaseModel):
         now = timezone.now()
         is_active = now > (self.screening_start_at + timedelta(minutes=self.minutes_duration))
         return is_active
+
+
+class UserProfile(BaseModel):
+    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, related_name='profile')
+    image = models.ImageField(null=True, blank=True)

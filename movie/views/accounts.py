@@ -1,10 +1,29 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
+from django.template.response import TemplateResponse
 from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormMixin
 from django.contrib.auth.forms import AuthenticationForm
+
+from movie.forms.accounts import RegistrationForm
+
+
+class RegistrationView(FormMixin, TemplateView):
+    template_name = 'accounts/registration.html'
+    form_class = RegistrationForm
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            user = form.save()
+            messages.success(request, f'Account {form.cleaned_data["username"]} created')
+            login(request, user)
+            return redirect('homepage')
+        else:
+            messages.error(request, 'Something wrong')
+            return TemplateResponse(request, 'accounts/registration.html', context={'form': form})
 
 
 class LoginView(FormMixin, TemplateView):

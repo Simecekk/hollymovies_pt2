@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from movie.views.accounts import LoginView, LogoutView
+from movie.views.accounts import LoginView, LogoutView, RegistrationView
 from movie.views.cinema import CinemaListView, CinemaDetailView, ScreeningDetailView
 from movie.views.generic import homepage_view, TestingCheatSheetView, DummyFormView
 from movie.views.movie import MovieListView, MovieDetailView, MovieDeleteView, GenreDetailView, MovieCreateView, \
@@ -52,6 +52,7 @@ screening_urlpatterns = ([
 auth_urlpatterns = ([
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('register/', RegistrationView.as_view(), name='register')
 ], 'auth')
 
 urlpatterns = [
