@@ -118,4 +118,4 @@ class CinemaMovieScreening(BaseModel):
 
 class UserProfile(BaseModel):
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, related_name='profile')
-    image = models.ImageField(null=True, blank=True)
+    image = models.ImageField(null=True, blank=True, upload_to='profile_images')
