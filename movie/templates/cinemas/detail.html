@@ -4,7 +4,8 @@
 
 {% block body %}
     <p>First name: {{ object.name }}</p>
-    <p>Last name: {{ object.location }}</p>
+    <p>Location: {{ object.location }}</p>
+    <p>finances: {{ object.finances }}</p>
 
     <table class="table">
         <h2>Available screenings</h2>
@@ -24,10 +25,10 @@
                 <td>{{ screening.screening_start_at }}</td>
                 <td>{{ screening.minutes_duration }}</td>
                 <td>{{ screening.available_tickets }}</td>
-                <td><a href="{% url 'screening-detail' screening.pk %}">detail</a></td>
+                <td><a href="{% url 'screening:detail' screening.pk %}">detail</a></td>
                 {% if request.user.is_authenticated %}
                     <td>
-                        <form action="{% url 'screening-detail' screening.pk %}" method="post">
+                        <form action="{% url 'screening:detail' screening.pk %}" method="post">
                             {% csrf_token %}
                             <input type="submit" class="btn btn-success" value="buy">
                         </form>

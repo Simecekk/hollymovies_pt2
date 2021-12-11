@@ -82,6 +82,7 @@ class MovieLikeRegister(BaseModel):
 class Cinema(BaseModel):
     name = models.CharField(max_length=512)
     location = models.CharField(max_length=512)
+    finances = models.FloatField(default=0)
 
     class Meta:
         unique_together = ('name', 'location')

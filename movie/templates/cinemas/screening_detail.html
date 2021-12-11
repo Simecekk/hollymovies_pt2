@@ -8,12 +8,13 @@
     <p>movie: {{ object.movie.name }}</p>
     <p>cinema: {{ object.cinema }}</p>
     <p>number of tickets: {{ object.number_of_tickets }}</p>
+    <p>number of available tickets: {{ object.available_tickets }}</p>
     <p>ticket price: {{ object.ticket_price }}</p>
     <p>Tickets sold: {{ object.sold_tickets }}</p>
 
     {% if request.user.is_authenticated %}
         <td>
-            <form action="{% url 'screening-detail' object.pk %}" method="post">
+            <form action="{% url 'screening:detail' object.pk %}" method="post">
                 {% csrf_token %}
                 <input type="submit" class="btn btn-success" value="buy">
             </form>

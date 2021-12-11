@@ -1,4 +1,6 @@
+from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
+from django.contrib import messages
 
 from movie.models import Cinema, CinemaMovieScreening
 
@@ -35,9 +37,13 @@ class ScreeningDetailView(DetailView):
     template_name = 'cinemas/screening_detail.html'
 
     def post(self, request, *args, **kwargs):
-        # TODO Check whether solds_tickets isn't bigger than all tickets count
-        # TODO add bucket to Cinema so we can add money to it
         self.object = self.get_object()
+        if self.object.available_tickets <= 0:
+            messages.error(request, 'There are is no more tickets left. Please look for another screening')
+            return redirect('cinema:list')
         self.object.sold_tickets += 1
+        cinema = self.object.cinema
+        cinema.finances += self.object.ticket_price
+        cinema.save(update_fields=['finances'])
         self.object.save(update_fields=['sold_tickets', ])
         return self.get(request, *args, **kwargs)
