@@ -55,11 +55,13 @@
 <h1>Dummy testing pages</h1>
 <h2><a href="{% url 'data_types_testing' %}">data types in templates</a></h2>
 <h2><a href="{% url 'dummy_form' %}">Dummy forms testing</a></h2>
-
+<br>
+<h1>Account:</h1>
 {% if request.user.is_authenticated %}
     <h2>Username: {{ request.user.username }}</h2>
+    <h2><a href="{% url 'auth:logout' %}">logout</a></h2>
 {% else %}
-    <h2>login</h2>
+    <h2><a href="{% url 'auth:login' %}">login</a></h2>
 {% endif %}
 
 <div class="container mt-5">

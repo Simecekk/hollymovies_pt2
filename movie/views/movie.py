@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
@@ -95,7 +96,7 @@ class MovieDetailView(DetailView):
         return self.get(request, *args, **kwargs)
 
 
-class MovieCreateView(SuccessMessageMixin, CreateView):
+class MovieCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     template_name = 'movies/create.html'
     form_class = MovieForm
     success_message = 'Successfully created movie %(name)s'
@@ -104,7 +105,7 @@ class MovieCreateView(SuccessMessageMixin, CreateView):
         return reverse('movie:detail', args=[self.object.id])
 
 
-class MovieUpdateView(SuccessMessageMixin, UpdateView):
+class MovieUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     template_name = 'movies/update.html'
     form_class = MovieForm
     model = Movie
@@ -114,7 +115,7 @@ class MovieUpdateView(SuccessMessageMixin, UpdateView):
         return reverse('movie:detail', args=[self.object.id])
 
 
-class MovieDeleteView(DeleteSuccessMixin, DeleteView):
+class MovieDeleteView(DeleteSuccessMixin, LoginRequiredMixin, DeleteView):
     model = Movie
 
     def get_success_message(self):
