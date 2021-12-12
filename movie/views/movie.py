@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
@@ -30,27 +30,30 @@ class GenreListView(View):
         return TemplateResponse(request, 'genres/list.html', context=context)
 
 
-class GenreCreateView(SuccessMessageMixin, CreateView):
+class GenreCreateView(SuccessMessageMixin, PermissionRequiredMixin, CreateView):
     template_name = 'genres/create.html'
     form_class = GenreForm
     success_message = 'Successfully created genre %(name)s'
+    permission_required = 'movie.add_genre'
 
     def get_success_url(self):
         return reverse('genre:detail', args=[self.object.id])
 
 
-class GenreUpdateView(SuccessMessageMixin, UpdateView):
+class GenreUpdateView(SuccessMessageMixin, PermissionRequiredMixin, UpdateView):
     template_name = 'genres/update.html'
     form_class = GenreForm
     model = Genre
     success_message = 'Successfully updated genre %(name)s'
+    permission_required = 'movie.update_genre'
 
     def get_success_url(self):
         return reverse('genre:detail', args=[self.object.id])
 
 
-class GenreDeleteView(DeleteSuccessMixin, DeleteView):
+class GenreDeleteView(DeleteSuccessMixin, PermissionRequiredMixin, DeleteView):
     model = Genre
+    permission_required = 'movie.delete_genre'
 
     def get_success_message(self):
         return f'Successfully deleted genre name: {self.object.name}'
@@ -96,27 +99,30 @@ class MovieDetailView(DetailView):
         return self.get(request, *args, **kwargs)
 
 
-class MovieCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
+class MovieCreateView(SuccessMessageMixin, PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     template_name = 'movies/create.html'
     form_class = MovieForm
     success_message = 'Successfully created movie %(name)s'
+    permission_required = 'movie.add_movie'
 
     def get_success_url(self):
         return reverse('movie:detail', args=[self.object.id])
 
 
-class MovieUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+class MovieUpdateView(SuccessMessageMixin, PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     template_name = 'movies/update.html'
     form_class = MovieForm
     model = Movie
     success_message = 'Successfully updated movie %(name)s'
+    permission_required = 'movie.update_movie'
 
     def get_success_url(self):
         return reverse('movie:detail', args=[self.object.id])
 
 
-class MovieDeleteView(DeleteSuccessMixin, LoginRequiredMixin, DeleteView):
+class MovieDeleteView(DeleteSuccessMixin, PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     model = Movie
+    permission_required = 'movie.delete_movie'
 
     def get_success_message(self):
         return f'Successfully deleted movie name: {self.object.name}'

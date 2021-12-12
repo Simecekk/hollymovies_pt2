@@ -40,6 +40,12 @@ class Movie(BaseModel):
     ], default=0)
     genre = models.ForeignKey(Genre, on_delete=models.SET_NULL, null=True, related_name='movies')
 
+    class Meta:
+        permissions = (
+            # Code name      Human readable name
+            ('can_dislike', 'Can dislike movie'),
+        )
+
     def __str__(self):
         return f'{self.name} : {self.id}'
 
@@ -118,4 +124,4 @@ class CinemaMovieScreening(BaseModel):
 
 class UserProfile(BaseModel):
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, related_name='profile')
-    image = models.ImageField(null=True, blank=True, upload_to='profile_images')
+    image = models.ImageField(null=True, blank=True, upload_to='images/')

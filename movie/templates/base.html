@@ -35,11 +35,15 @@
 <br>
 <h3>Movies endpoints</h3>
 <h2><a href="{% url 'movie:list' %}">movies</a></h2>
-<h2><a href="{% url 'movie:create' %}">Create Movie</a></h2>
+{% if perms.movie.add_movie %}
+    <h2><a href="{% url 'movie:create' %}">Create Movie</a></h2>
+{% endif %}
 <br>
 <h3>Genre endpoints</h3>
 <h2><a href="{% url 'genre:list' %}">genres</a></h2>
-<h2><a href="{% url 'genre:create' %}">Create genre</a></h2>
+{% if perms.movie.add_genre %}
+    <h2><a href="{% url 'genre:create' %}">Create genre</a></h2>
+{% endif %}
 <br>
 <h3>Director endpoints</h3>
 <h2><a href="{% url 'director:list' %}">directors</a></h2>
@@ -49,7 +53,9 @@
 <br>
 <h3>Actor endpoints</h3>
 <h2><a href="{% url 'actor:list' %}">actors</a></h2>
-<h2><a href="{% url 'actor:create' %}">Create Actor</a></h2>
+{% if perms.movie.add_actor %}
+    <h2><a href="{% url 'actor:create' %}">Create Actor</a></h2>
+{% endif %}
 <br>
 {% if request.user.is_superuser %}
     <h3>Admin page endpoint</h3>

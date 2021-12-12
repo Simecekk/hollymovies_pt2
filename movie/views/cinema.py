@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
 from django.contrib import messages
@@ -10,9 +11,10 @@ class CinemaListView(ListView):
     template_name = 'cinemas/list.html'
 
 
-class CinemaDetailView(DetailView):
+class CinemaDetailView(PermissionRequiredMixin, DetailView):
     model = Cinema
     template_name = 'cinemas/detail.html'
+    permission_required = 'movie.view_cinema'
 
     def get_context_data(self, **kwargs):
         context = super(CinemaDetailView, self).get_context_data(**kwargs)
