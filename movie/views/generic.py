@@ -1,8 +1,9 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.template.response import TemplateResponse
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
 
+from movie import general_permissions
 from movie.forms import DummyForm
 from movie.models import Movie, Genre, Actor, Director
 
@@ -11,8 +12,9 @@ from movie.models import Movie, Genre, Actor, Director
 # Class based views #
 ######################
 
-class TestingCheatSheetView(TemplateView):
+class TestingCheatSheetView(PermissionRequiredMixin, TemplateView):
     template_name = 'generic/data_types_testing.html'
+    permission_required = general_permissions.CAN_VIEW_TESTING_PAGES_PERM
 
     # python list[0]
     # template language jinja2 list.0
@@ -28,10 +30,11 @@ class TestingCheatSheetView(TemplateView):
     }
 
 
-class DummyFormView(FormView):
+class DummyFormView(PermissionRequiredMixin, FormView):
     template_name = 'generic/dummy_forms.html'
     success_url = reverse_lazy('dummy_form')
     initial = {'username': 'Honza'}
+    permission_required = general_permissions.CAN_VIEW_TESTING_PAGES_PERM
 
     def get_form(self, form_class=None):
         return DummyForm(10, **self.get_form_kwargs())

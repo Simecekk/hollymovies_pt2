@@ -122,6 +122,10 @@ class CinemaMovieScreening(BaseModel):
         return is_active
 
 
+def profile_image_upload_to(instance, filename):
+    return f'profile/user_{instance.user.id}/{filename}'
+
+
 class UserProfile(BaseModel):
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, related_name='profile')
-    image = models.ImageField(null=True, blank=True, upload_to='images/')
+    image = models.ImageField(null=True, blank=True, upload_to=profile_image_upload_to)
